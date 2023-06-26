@@ -16,12 +16,6 @@ class EditDiscount extends EditRecord
 
     protected function handleRecordUpdate(Model $record, array $data): Model
     {
-        /** @var BaseDiscountContract $record */
-        $record->update([
-            'discountable_type' => $data['discountable_type'],
-            'discountable_id' => $data['discountable_id'],
-        ]);
-
         /** @var DiscountContract $requiredDiscountType */
         $requiredDiscountType = $data['discount_type'];
 

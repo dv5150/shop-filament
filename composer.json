@@ -25,8 +25,8 @@
     },
     "require": {
         "php": "^8.0",
-        "dv5150/shop": "@dev",
-        "filament/filament": "^2.17"
+        "filament/filament": "^2.17",
+        "dv5150/shop": "@dev"
     },
     "require-dev": {
         "phpunit/phpunit": "^9.6"

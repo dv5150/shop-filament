@@ -3,15 +3,13 @@
 namespace DV5150\Shop\Filament\Resources;
 
 use DV5150\Shop\Contracts\Deals\Discounts\DiscountContract;
-use DV5150\Shop\Contracts\Models\ProductContract;
 use DV5150\Shop\Filament\Resources\DiscountResource\Pages\CreateDiscount;
 use DV5150\Shop\Filament\Resources\DiscountResource\Pages\EditDiscount;
 use DV5150\Shop\Filament\Resources\DiscountResource\Pages\ListDiscounts;
+use DV5150\Shop\Filament\Resources\DiscountResource\RelationManagers\ProductsRelationManager;
 use DV5150\Shop\Models\Deals\Discounts\ProductPercentDiscount;
 use DV5150\Shop\Models\Deals\Discounts\ProductValueDiscount;
 use Filament\Forms\Components\Card;
-use Filament\Forms\Components\MorphToSelect;
-use Filament\Forms\Components\MorphToSelect\Type;
 use Filament\Forms\Components\Select;
 use Filament\Forms\Components\TextInput;
 use Filament\Resources\Form;
@@ -41,17 +39,6 @@ class DiscountResource extends Resource
     {
         return $form
             ->schema([
-                MorphToSelect::make('discountable')
-                    ->types([
-                        Type::make(config('shop.models.product'))
-                            ->getOptionLabelFromRecordUsing(
-                                function (ProductContract $product): string {
-                                    return $product->getName();
-                                }
-                            )->titleColumnName('name')
-                            ->label('Product'),
-                    ])->required()
-                    ->label('Discounted Item'),
                 Select::make('discount_type')
                     ->options(self::getDiscountTypes())
                     ->required(),
@@ -69,9 +56,7 @@ class DiscountResource extends Resource
         return $table
             ->columns([
                 TextColumn::make('discount')
-                    ->formatStateUsing(function (DiscountContract $state) {
-                        return self::getDiscountAdminName($state);
-                    }),
+                    ->formatStateUsing(fn (DiscountContract $state) => $state->getName()),
             ])
             ->filters([
                 //
@@ -88,7 +73,7 @@ class DiscountResource extends Resource
     public static function getRelations(): array
     {
         return [
-            //
+            ProductsRelationManager::class,
         ];
     }
 
@@ -101,22 +86,13 @@ class DiscountResource extends Resource
         ];
     }
 
-    public static function getDiscountAdminName(DiscountContract $state): string
+    public static function getDiscountTypes(): array
     {
-        $name = $state->getName();
+        $currencyCode = config('shop.currency.code');
 
-        if ($discountable = $state->getBaseDiscount()->getDiscountable()) {
-            $name .= " | {$discountable->getName()}";
-        }
-
-        return $name;
-    }
-
-    protected static function getDiscountTypes(): array
-    {
         return [
-            ProductPercentDiscount::class => 'Percent Discount (%)',
-            ProductValueDiscount::class => 'Value Discount (' . config('shop.currency.code') . ')',
+            ProductPercentDiscount::class => 'Percent (%)',
+            ProductValueDiscount::class => "Value ($currencyCode)",
         ];
     }
 }

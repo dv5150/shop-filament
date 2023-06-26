@@ -17,12 +17,12 @@ class CreateDiscount extends CreateRecord
 
         $discount = $data['discount_type']::create($data['discount']);
 
-        $baseDiscount = tap(new (config('shop.models.discount'))([
-            'discountable_type' => $data['discountable_type'],
-            'discountable_id' => $data['discountable_id'],
-        ]), function (BaseDiscountContract $baseDiscount) use ($discount) {
-            $baseDiscount->discount()->associate($discount);
-        });
+        $baseDiscount = tap(
+            new (config('shop.models.discount'))(),
+            function (BaseDiscountContract $baseDiscount) use ($discount) {
+                $baseDiscount->discount()->associate($discount);
+            }
+        );
 
         $baseDiscount->save();
 

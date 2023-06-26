@@ -14,7 +14,7 @@ class ListDiscounts extends ListRecords
     protected function getTableQuery(): Builder
     {
         return static::getResource()::getEloquentQuery()
-            ->with(['discount', 'discountable']);
+            ->with(['discount']);
     }
 
     protected function getActions(): array
