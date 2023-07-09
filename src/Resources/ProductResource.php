@@ -15,7 +15,6 @@ use Filament\Resources\Resource;
 use Filament\Resources\Table;
 use Filament\Tables\Actions\DeleteBulkAction;
 use Filament\Tables\Actions\EditAction;
-use Filament\Tables\Columns\SelectColumn;
 use Filament\Tables\Columns\TextColumn;
 
 class ProductResource extends Resource
@@ -42,8 +41,8 @@ class ProductResource extends Resource
                 Select::make('categories')
                     ->multiple()
                     ->relationship('categories', 'name'),
-                Checkbox::make('is_digital_product')
-                    ->label('Is digital product?')
+                Checkbox::make('is_digital_item')
+                    ->label('Is digital item?')
                     ->inline(false),
                 MarkdownEditor::make('description')
                     ->columnSpan(2),

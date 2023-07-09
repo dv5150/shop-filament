@@ -26,7 +26,7 @@ class ItemsRelationManager extends RelationManager
     {
         return $this->getOwnerRecord()
             ->{static::getRelationshipName()}()
-            ->with('product')
+            ->with('sellable')
             ->select(['*', DB::raw('(quantity * price_gross) as subtotal')]);
     }
 
@@ -66,9 +66,9 @@ class ItemsRelationManager extends RelationManager
             ->actions([
                 Action::make('viewItem')
                     ->label('View Item')
-                    ->visible(fn ($record) => $record->product)
+                    ->visible(fn ($record) => $record->sellable)
                     ->url(fn ($record) => ProductResource::getUrl('edit', [
-                        'record' => $record->product
+                        'record' => $record->sellable
                     ]))
                     ->openUrlInNewTab()
                     ->icon('heroicon-o-eye'),
