@@ -1,19 +1,4 @@
 {
-    "name": "dv5150/shop-filament",
-    "description": "Filament support for Laravel shop package",
-    "license": "MIT",
-    "autoload": {
-        "psr-4": {
-            "DV5150\\Shop\\Filament\\": "src/",
-            "DV5150\\Shop\\Filament\\Tests\\": "tests/"
-        }
-    },
-    "authors": [
-        {
-            "name": "David Szabados",
-            "email": "dv5150dev@gmail.com"
-        }
-    ],
     "repositories": {
         "shop": {
             "type": "path",
@@ -23,19 +8,61 @@
             }
         }
     },
+    "name": "dv5150/shop-filament",
+    "description": "Filament support for Laravel Webshop package",
+    "license": "MIT",
+    "keywords": [
+        "laravel",
+        "shop",
+        "laravel-shop",
+        "webshop",
+        "filament",
+        "cms",
+        "admin",
+        "resources"
+    ],
+    "autoload": {
+        "psr-4": {
+            "DV5150\\Shop\\Filament\\": "src/",
+            "DV5150\\Shop\\Filament\\Tests\\": "tests/"
+        }
+    },
+    "authors": [
+        {
+            "name": "David Szabados",
+            "email": "dv5150dev@gmail.com",
+            "homepage": "https://dv5150.github.io",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/dv5150/shop-filament",
     "require": {
-        "php": "^8.0",
-        "filament/filament": "^2.17",
-        "dv5150/shop": "@dev"
+        "php": "^8.1",
+        "dv5150/shop": "@dev",
+        "filament/filament": "^2"
     },
     "require-dev": {
-        "phpunit/phpunit": "^9.6"
+        "phpunit/phpunit": "^9.6",
+        "pestphp/pest": "^1.23",
+        "pestphp/pest-plugin-laravel": "^1.4",
+        "pestphp/pest-plugin-parallel": "^1.2",
+        "orchestra/testbench": "^6",
+        "pestphp/pest-plugin-livewire": "^1.0"
+    },
+    "scripts": {
+        "test": "vendor/bin/pest",
+        "test-coverage": "vendor/bin/pest --coverage"
     },
     "extra": {
         "laravel": {
             "providers": [
                 "DV5150\\Shop\\Filament\\ShopFilamentServiceProvider"
             ]
+        }
+    },
+    "config": {
+        "allow-plugins": {
+            "pestphp/pest-plugin": true
         }
     }
 }
